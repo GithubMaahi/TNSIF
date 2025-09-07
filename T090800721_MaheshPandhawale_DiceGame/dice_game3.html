@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dice Game for Odd Players</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .dice-container {
+      display: flex;
+      gap: 40px; /* Increased gap between dice */
+      margin-bottom: 20px;
+    }
+
+    .dice-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dice {
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      border: 3px solid #007bff; /* Changed to blue */
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      justify-items: center;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .dot {
+      width: 20px;
+      height: 20px;
+      background-color: #333;
+      border-radius: 50%;
+    }
+
+    .hidden {
+      visibility: hidden;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #db0c0c; /* Red background */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838; /* Darker green */
+      transform: scale(1.1); /* Slightly enlarges the button */
+    }
+
+    .result {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .player-name {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>UID No-T090800721</h2>
+  <h1>Dice Game for Odd Players</h1>
+  <div class="dice-container">
+    <div class="dice-wrapper">
+      <div id="dice1" class="dice"></div>
+      <div class="player-name">Player 1</div>
+    </div>
+    <div class="dice-wrapper">
+      <div id="dice2" class="dice"></div>
+      <div class="player-name">Player 2</div>
+    </div>
+    <div class="dice-wrapper">
+      <div id="dice3" class="dice"></div>
+      <div class="player-name">Player 3</div>
+    </div>
+  </div>
+
+  <button onclick="rollDice()">Roll Dice</button>
+  <div id="result" class="result"></div>
+
+  <script>
+    // Function to create the dots on the dice based on the score
+    function renderDice(diceElement, score) {
+      diceElement.innerHTML = '';
+      const dotPositions = {
+        1: [4],
+        2: [0, 8],
+        3: [0, 4, 8],
+        4: [0, 2, 6, 8],
+        5: [0, 2, 4, 6, 8],
+        6: [0, 2, 3, 5, 6, 8],
+      };
+
+      for (let i = 0; i < 9; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (!dotPositions[score].includes(i)) {
+          dot.classList.add('hidden');
+        }
+        diceElement.appendChild(dot);
+      }
+    }
+
+    // Function to roll the dice
+    function rollDice() {
+      // Generate random scores for each player's dice
+      const dice1Score = Math.floor(Math.random() * 6) + 1;
+      const dice2Score = Math.floor(Math.random() * 6) + 1;
+      const dice3Score = Math.floor(Math.random() * 6) + 1;
+
+      // Dice elements
+      const dice1 = document.getElementById('dice1');
+      const dice2 = document.getElementById('dice2');
+      const dice3 = document.getElementById('dice3');
+
+      const result = document.getElementById('result');
+
+      // Render the dice for each player
+      renderDice(dice1, dice1Score);
+      renderDice(dice2, dice2Score);
+      renderDice(dice3, dice3Score);
+
+      // Compare the highest value of the dice roll
+      let winnerMessage = '';
+
+      if (dice1Score > dice2Score && dice1Score > dice3Score) {
+        winnerMessage = `Player 1 wins with a roll of ${dice1Score}!`;
+      } else if (dice2Score > dice1Score && dice2Score > dice3Score) {
+        winnerMessage = `Player 2 wins with a roll of ${dice2Score}!`;
+      } else if (dice3Score > dice1Score && dice3Score > dice2Score) {
+        winnerMessage = `Player 3 wins with a roll of ${dice3Score}!`;
+      } else {
+        winnerMessage = `It's a draw! Players rolled the same value.`;
+      }
+
+      result.textContent = winnerMessage;
+    }
+  </script>
+</body>
+</html>
