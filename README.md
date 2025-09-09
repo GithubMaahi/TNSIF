@@ -1,2 +1,2 @@
 # TNSIF
-This repository contains practice sessions, Assignments nd Projects.
+This repository contains practice sessions, Assignments and Projects.
